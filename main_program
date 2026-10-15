@@ -1,0 +1,186 @@
+using System;
+using System.Globalization;
+
+class item
+{
+    public string judul;
+    public int tahun;
+    public item(string Judul, int Tahun)
+    {
+        this.judul = Judul;
+        this.tahun = Tahun;
+    }
+    public void info_item()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+    }
+    public virtual void deskripsi()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+    }
+}
+
+class buku : item
+{
+    public string penulis;
+
+    public buku(string Judul, int Tahun, string Penulis) : base(Judul, Tahun)
+    {
+        this.penulis = Penulis;
+    }
+    public void cek_penulis()
+    {
+        Console.WriteLine($"Buku ini ditulis oleh {this.penulis}");
+    }
+    public override void deskripsi()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+        Console.WriteLine("Penulis : " + penulis);
+    }
+}
+
+class majalah : item
+{
+    public int edisi;
+    public majalah (string Judul, int Tahun, int Edisi) : base(Judul, Tahun) 
+    {
+        this.edisi = Edisi;
+    }
+    public void info_edisi()
+    {
+        Console.WriteLine("Majalah ini merupakan edisi tahun " + edisi);
+    }
+    public override void deskripsi()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+        Console.WriteLine("Edisi : " + edisi);
+    }
+}
+
+class novel : buku
+{
+    public novel (string Judul, int Tahun, string Penulis) : base(Judul, Tahun, Penulis) {}
+
+    public override void deskripsi()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+        Console.WriteLine("Penulis : " + penulis);
+    }
+    public void baca_sinopsis ()
+    {
+        Console.WriteLine("Ini merupakan sinopsis dari novel " + judul);
+    }
+}
+
+class komik : buku
+{
+    public komik(string Judul, int Tahun, string Penulis) : base(Judul, Tahun, Penulis) { }
+
+    public override void deskripsi()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+        Console.WriteLine("Penulis : " + penulis);
+    }
+    public void tampilkan_ilustrasi()
+    {
+        Console.WriteLine("Ini merupakan ilustrasi dari komik " + judul);
+    }
+}
+
+
+class majalah_anak : majalah
+{
+    public majalah_anak(string Judul, int Tahun, int Edisi) : base(Judul, Tahun, Edisi) { }
+
+    public override void deskripsi()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+        Console.WriteLine("Edisi : " + edisi);
+    }
+    public void kategori_anak()
+    {
+        Console.WriteLine("Majalah ini merupakan majalah anak");
+    }
+}
+
+class majalah_teknologi : majalah
+{
+    public majalah_teknologi(string Judul, int Tahun, int Edisi) : base(Judul, Tahun, Edisi) { }
+
+    public override void deskripsi()
+    {
+        Console.WriteLine("Judul : " + judul);
+        Console.WriteLine("Tahun : " + tahun);
+        Console.WriteLine("Edisi : " + edisi);
+    }
+    public void topik_teknologi()
+    {
+        Console.WriteLine("Majalah ini membahas topik Teknologi");
+    }
+}
+
+class Perpustakaan
+    {
+    private List<item> koleksi = new List<item>();
+
+    public void tambah_item(item kumpulan_item)
+    {
+        koleksi.Add(kumpulan_item);
+    }
+    public void daftar_item()
+    {
+        Console.WriteLine("\n=== DAFTAR ITEM PERPUSTAKAAN ===");
+
+        foreach (item kumpulan_item in koleksi)
+            {
+            kumpulan_item.deskripsi();
+            Console.WriteLine();
+            }
+        }
+    }
+
+class program
+{
+    static void Main()
+    {
+        Perpustakaan perpustakaan1 = new Perpustakaan();
+
+        komik komik1 = new komik("MCU", 2000, "Stan Lee");
+        novel novel1 = new novel("Laskar Pelangi", 2005, "Andrea Hirata");
+        majalah majalah1 = new majalah("Prabowo Pidato", 2024, 10);
+        majalah_anak Spongebob = new majalah_anak("Bobon", 2025, 12);
+        majalah_teknologi ilmu_jago = new majalah_teknologi("Polytron Memang Canggih", 2025, 5);
+
+        perpustakaan1.tambah_item(komik1);
+        perpustakaan1.tambah_item(novel1);
+        perpustakaan1.tambah_item(majalah1);
+        perpustakaan1.tambah_item(Spongebob);
+        perpustakaan1.tambah_item(ilmu_jago);
+
+        novel1.deskripsi();
+        majalah1.deskripsi();
+        Console.WriteLine();
+        
+
+        novel1.baca_sinopsis();
+        Console.WriteLine();
+
+        novel1.info_item();
+        novel1.cek_penulis();
+        Console.WriteLine();
+
+        ilmu_jago.topik_teknologi();
+        Console.WriteLine();
+
+        item itemKomik = komik1;
+        itemKomik.deskripsi();
+        Console.WriteLine();
+    }
+}
